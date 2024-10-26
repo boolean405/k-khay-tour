@@ -78,41 +78,15 @@
       "max_person": "14-15 persons",
       "duration": "8-5 hours",
       "start_time": "8:00 AM",
-      "images": [
-        "phi_phi_island_image_1.png",
-        "phi_phi_island_image_2.png"
-      ],
-      "recommended": [
-        "Who like Island",
-        "Who like popular package"
-      ],
-      "not_recommended": [
-        "Who doesn't like Island",
-        "Afraid of Water"
-      ],
-      "highlights": [
-        "Popular Island",
-        "Best Seller"
-      ],
-      "included": [
-        "Launch",
-        "Swimming Suits"
-      ],
-      "excluded": [
-        "Rent fee",
-        "Dinner"
-      ],
-      "to_bring": [
-        "Sun Glasses",
-        "Slipper"
-      ],
-      "destinations": [
-        "phuket"
-      ],
-      "expect_detail": [
-        "8:00 AM Start to go",
-        "9:00 AM Reached Island"
-      ]
+      "images": ["phi_phi_island_image_1.png", "phi_phi_island_image_2.png"],
+      "recommended": ["Who like Island", "Who like popular package"],
+      "not_recommended": ["Who doesn't like Island", "Afraid of Water"],
+      "highlights": ["Popular Island", "Best Seller"],
+      "included": ["Launch", "Swimming Suits"],
+      "excluded": ["Rent fee", "Dinner"],
+      "to_bring": ["Sun Glasses", "Slipper"],
+      "destinations": ["phuket"],
+      "expect_detail": ["8:00 AM Start to go", "9:00 AM Reached Island"]
     }
   ]
 }
