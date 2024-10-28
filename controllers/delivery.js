@@ -21,7 +21,7 @@ const add = async (req, res, next) => {
     next(new Error("Delivery is already exist"));
   } else {
     if (req.body.remarks) {
-      req.body.remarks = req.body.remarks.split(",").map((str) => str.trim());
+      Helper.splitTrim(req.body.remarks);
     }
     let result = await new DB(req.body).save();
     Helper.fMsg(res, "Delivery Saved", result);
@@ -36,7 +36,7 @@ const patch = async (req, res, next) => {
       next(new Error("Delivery is already exist"));
     } else {
       if (req.body.remarks) {
-        req.body.remarks = req.body.remarks.split(",").map((str) => str.trim());
+        Helper.splitTrim(req.body.remarks);
       }
       await DB.findByIdAndUpdate(dbDelivery._id, req.body);
       let result = await DB.findById(req.params.id);

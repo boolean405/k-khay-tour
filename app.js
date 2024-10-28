@@ -23,6 +23,7 @@ const subCategoryRouter = require("./routes/sub_category");
 const tagRouter = require("./routes/tag");
 const deliveryRouter = require("./routes/delivery");
 const productRouter = require("./routes/product");
+const orderRouter = require("./routes/order");
 
 // For validation
 const { validateToken, validateRole } = require("./utils/validator");
@@ -36,6 +37,7 @@ app.use("/subcategories", subCategoryRouter);
 app.use("/tags", tagRouter);
 app.use("/deliveries", deliveryRouter);
 app.use("/products", productRouter);
+app.use("/orders", orderRouter);
 
 // Error Handling
 app.use((err, req, res, next) => {

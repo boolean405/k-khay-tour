@@ -25,22 +25,71 @@ const register = async (req, res, next) => {
   Helper.fMsg(res, "User Register Success", result);
 };
 
+// const login = async (req, res, next) => {
+//   let dbPhoneUser = await DB.findOne({ phone: req.body.phone }).populate(
+//     "roles permits",
+//   );
+//   if (dbPhoneUser) {
+//     if (Helper.comparePassword(req.body.password, dbPhoneUser.password)) {
+//       let user = dbPhoneUser.toObject();
+//       delete user.password;
+//       user.token = Helper.makeToken(user);
+//       Redis.set(user._id, user);
+//       Helper.fMsg(res, "Login Success", user);
+//     } else {
+//       next(new Error("Incorrect Password"));
+//     }
+//   } else {
+//     next(new Error("No user found with Phone Number"));
+//   }
+// };
+
 const login = async (req, res, next) => {
-  let dbPhoneUser = await DB.findOne({ phone: req.body.phone }).populate(
-    "roles permits",
-  );
-  if (dbPhoneUser) {
-    if (Helper.comparePassword(req.body.password, dbPhoneUser.password)) {
-      let user = dbPhoneUser.toObject();
-      delete user.password;
-      user.token = Helper.makeToken(user);
-      Redis.set(user._id, user);
-      Helper.fMsg(res, "Login Success", user);
+  let dbUser = {};
+  let dbPhoneUser = {};
+  let dbEmailUser = {};
+
+  if (req.body.phone || req.body.email) {
+    if (req.body.phone) {
+      dbPhoneUser = await DB.findOne({ phone: req.body.phone }).populate(
+        "roles permits",
+      );
+      if (dbPhoneUser) {
+        dbUser = dbPhoneUser;
+      } else {
+        next(
+          new Error(`No User found with this '${req.body.phone}' Phone Number`),
+        );
+      }
+    } else if (req.body.email) {
+      dbEmailUser = await DB.findOne({ email: req.body.email }).populate(
+        "roles permits",
+      );
+      if (dbEmailUser) {
+        dbUser = dbEmailUser;
+      } else {
+        next(
+          new Error(
+            `No User found with this '${req.body.email}' Email Address`,
+          ),
+        );
+      }
+    }
+    if (dbUser.name) {
+      if (Helper.comparePassword(req.body.password, dbUser.password)) {
+        let user = dbUser.toObject();
+        delete user.password;
+        user.token = Helper.makeToken(user);
+        Redis.set(user._id, user);
+        Helper.fMsg(res, "Login Success", user);
+      } else { 
+        next(new Error("Incorrect Password"));
+      }
     } else {
-      next(new Error("Incorrect Password"));
+      next(new Error("Email or Phone must be valid"));
     }
   } else {
-    next(new Error("No user found with Phone Number"));
+    next(new Error("Email or Phone must be contain to Login"));
   }
 };
 

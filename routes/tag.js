@@ -6,8 +6,8 @@ const { uploadSingleFile } = require("../utils/gallery");
 
 router.get("/", controller.all);
 router.post("/", [
-  uploadSingleFile,
   validateBody(TagSchema.add),
+  uploadSingleFile,
   controller.add,
 ]);
 

@@ -17,16 +17,14 @@ const add = async (req, res, next) => {
   if (dbCat) {
     next(new Error(`${dbCat.name} Category name is already exist`));
   } else {
-    if (req.body.free_pickup_zone) {
-      req.body.free_pickup_zone = req.body.free_pickup_zone
-        .split(",")
-        .map((str) => str.trim());
-    }
-    if (req.body.extra_charge_pickup_zone) {
-      req.body.extra_charge_pickup_zone = req.body.extra_charge_pickup_zone
-        .split(",")
-        .map((str) => str.trim());
-    }
+    if (req.body.free_pickup_zone)
+      req.body.free_pickup_zone = Helper.splitTrim(req.body.free_pickup_zone);
+
+    if (req.body.extra_charge_pickup_zone)
+      req.body.extra_charge_pickup_zone = Helper.splitTrim(
+        req.body.extra_charge_pickup_zone,
+      );
+
     let result = await new DB(req.body).save();
     Helper.fMsg(res, "Category Uploaded", result);
   }

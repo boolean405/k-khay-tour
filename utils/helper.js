@@ -11,4 +11,5 @@ module.exports = {
   timer: async (second) => {
     await new Promise((resolve) => setTimeout(resolve, second * 1000));
   },
+  splitTrim: (data) => data.split(",").map((str) => str.trim()),
 };

@@ -22,7 +22,7 @@ module.exports = {
         .regex(/^[0-9a-fA-F]{24}$/)
         .required(),
       permit_id: Joi.string()
-        .regex(/^[0-9a-fA-F]{24}$/) 
+        .regex(/^[0-9a-fA-F]{24}$/)
         .required(),
     }),
     removePermit: Joi.object({
@@ -44,7 +44,10 @@ module.exports = {
       re_password: Joi.ref("password"),
     }),
     login: Joi.object({
-      phone: Joi.string().min(8).max(12).required(),
+      // phone: Joi.string().min(8).max(12),
+      // email: Joi.string().min(8),
+      phone: Joi.optional(),
+      email: Joi.optional(),
       password: Joi.string().min(8).max(16).required(),
     }),
     addRole: Joi.object({
@@ -123,28 +126,50 @@ module.exports = {
   DeliverySchema: {
     add: Joi.object({
       name: Joi.string().required(),
+      image: Joi.string().required(),
       price: Joi.number().required(),
       duration: Joi.string().required(),
       remarks: Joi.string(),
     }),
     patch: Joi.object({
       name: Joi.string(),
+      image: Joi.string(),
       price: Joi.number(),
       duration: Joi.string(),
       remarks: Joi.string(),
     }),
   },
+  // need to fix product schema, images error
   ProductSchema: {
     add: Joi.object({
       name: Joi.string().required(),
       price: Joi.number().required(),
       discount: Joi.number().required(),
+      rating: Joi.number().required(),
+      images: Joi.string().required(),
+      category: Joi.string().required(),
+      sub_category: Joi.string().required(),
+      tags: Joi.string().required(),
+      delivery: Joi.string().required(),
+      desc: Joi.string().required(),
+      detail: Joi.string().required(),
+      max_person: Joi.string().required(),
+      duration: Joi.string().required(),
+      start_time: Joi.string().required(),
+      recommended: Joi.string().required(),
+      not_recommended: Joi.string().required(),
+      highlights: Joi.string().required(),
+      included: Joi.string().required(),
+      excluded: Joi.string().required(),
+      to_bring: Joi.string().required(),
+      destinations: Joi.string().required(),
+      expect_detail: Joi.string().required(),
     }),
-    patch: Joi.object({
-      name: Joi.string(),
-      price: Joi.number(),
-      discount: Joi.number(),
-    }),
+    patch: Joi.object({}),
+  },
+  OrderSchema: {
+    add: Joi.object({}),
+    patch: Joi.object({}),
   },
 
   AllSchema: {

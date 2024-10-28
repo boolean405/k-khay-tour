@@ -5,7 +5,7 @@ let uploadSingleFile = async (req, res, next) => {
     if (req.files.file) {
       let filename = req.files.file.name;
       filename = new Date().valueOf() + "_" + filename;
-      req.files.file.mv(`./uploads/${filename}`);
+      await req.files.file.mv(`./uploads/${filename}`);
       req.body["image"] = filename;
       next();
     } else {
@@ -18,22 +18,31 @@ let uploadSingleFile = async (req, res, next) => {
 };
 
 let uploadMultipleFile = async (req, res, next) => {
+  console.log(req.files.files);
   if (req.files) {
     if (req.files.files) {
       let filenames = [];
-      req.files.files.forEach((file) => {
-        let filename = new Date().valueOf() + "_" + file.name;
+      if (req.files.files.length > 1){ 
+        req.files.files.forEach(async (file) => {
+          let filename = new Date().valueOf() + "_" + file.name;
+          filenames.push(filename);
+          await file.mv(`./uploads/${filename}`);
+        });
+        req.body["images"] = filenames;
+        next();
+      } else if(req.files.files){
+        let filename = new Date().valueOf() + "_" + req.files.files.name;
         filenames.push(filename);
-        file.mv(`./uploads/${filename}`);
-      });
-      req.body["images"] = filenames;
-      next();
+        await req.files.files.mv(`./uploads/${filename}`);
+        req.body["images"] = filenames;
+        next();
+      }
     } else {
       next(new Error("Need files to upload"));
     }
   } else {
-    // next(new Error('Need file to upload'));
-    next();
+    next(new Error("Need file to upload"));
+    // next();
   }
 };
 

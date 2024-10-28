@@ -4,12 +4,13 @@ const { ProductSchema, AllSchema } = require("../utils/schema");
 const { validateBody, validateParam } = require("../utils/validator");
 const { uploadMultipleFile } = require("../utils/gallery");
 
-router.get("/paginate/:page", controller.all);
 router.post("/", [
-  uploadMultipleFile,
+  // uploadMultipleFile,
   validateBody(ProductSchema.add),
   controller.add,
 ]);
+router.get("/paginate/:page", controller.all);
+router.get("/paginate/:type/:id/:page", controller.filterBy);
 
 router
   .route("/:id")
@@ -17,7 +18,7 @@ router
   .patch(
     [
       validateParam(AllSchema.id, "id"),
-      uploadMultipleFile,
+      // uploadMultipleFile,
       validateBody(ProductSchema.patch),
     ],
     controller.patch,
