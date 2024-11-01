@@ -44,10 +44,8 @@ module.exports = {
       re_password: Joi.ref("password"),
     }),
     login: Joi.object({
-      // phone: Joi.string().min(8).max(12),
-      // email: Joi.string().min(8),
-      phone: Joi.optional(),
-      email: Joi.optional(),
+      phone: Joi.string().min(8).max(12),
+      email: Joi.string().min(8),
       password: Joi.string().min(8).max(16).required(),
     }),
     addRole: Joi.object({

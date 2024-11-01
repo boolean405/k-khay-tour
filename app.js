@@ -2,10 +2,12 @@ require("dotenv").config();
 
 const express = require("express");
 const app = express();
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
 const mongoose = require("mongoose");
 const fileUpload = require("express-fileupload");
 const Helper = require("./utils/helper");
-
+const Redis = require("./utils/redis");
 // Connect Mongo Database
 mongoose.connect(`mongodb://127.0.0.1:27017/${process.env.DB_NAME}`);
 
@@ -58,7 +60,7 @@ const defaultData = async () => {
 // defaultData();
 
 // Run Server
-app.listen(
+server.listen(
   process.env.PORT,
-  console.log(`Server is running at port ${process.env.PORT}`),
+  console.log(`Server is running at port ${process.env.PORT}`)
 );

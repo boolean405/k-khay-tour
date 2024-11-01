@@ -52,26 +52,24 @@ const login = async (req, res, next) => {
   if (req.body.phone || req.body.email) {
     if (req.body.phone) {
       dbPhoneUser = await DB.findOne({ phone: req.body.phone }).populate(
-        "roles permits",
+        "roles permits"
       );
       if (dbPhoneUser) {
         dbUser = dbPhoneUser;
       } else {
         next(
-          new Error(`No User found with this '${req.body.phone}' Phone Number`),
+          new Error(`No User found with this '${req.body.phone}' Phone Number`)
         );
       }
     } else if (req.body.email) {
       dbEmailUser = await DB.findOne({ email: req.body.email }).populate(
-        "roles permits",
+        "roles permits"
       );
       if (dbEmailUser) {
         dbUser = dbEmailUser;
       } else {
         next(
-          new Error(
-            `No User found with this '${req.body.email}' Email Address`,
-          ),
+          new Error(`No User found with this '${req.body.email}' Email Address`)
         );
       }
     }
@@ -82,7 +80,7 @@ const login = async (req, res, next) => {
         user.token = Helper.makeToken(user);
         Redis.set(user._id, user);
         Helper.fMsg(res, "Login Success", user);
-      } else { 
+      } else {
         next(new Error("Incorrect Password"));
       }
     } else {
@@ -102,8 +100,8 @@ const addRole = async (req, res, next) => {
       if (existRole) {
         next(
           new Error(
-            `${dbRole.name} Role is already exist in ${dbUser.name} User`,
-          ),
+            `${dbRole.name} Role is already exist in ${dbUser.name} User`
+          )
         );
       } else {
         await DB.findByIdAndUpdate(dbUser._id, {
@@ -113,7 +111,7 @@ const addRole = async (req, res, next) => {
         Helper.fMsg(
           res,
           `${dbRole.name} Role added to ${user.name} User`,
-          user,
+          user
         );
       }
     } else {
@@ -134,7 +132,7 @@ const removeRole = async (req, res, next) => {
       });
       Helper.fMsg(
         res,
-        `${existRole.name} Role removed from ${dbUser.name} User`,
+        `${existRole.name} Role removed from ${dbUser.name} User`
       );
     } else {
       next(new Error(`Role doesn't exist in ${dbUser.name} User`));
@@ -153,8 +151,8 @@ const addPermit = async (req, res, next) => {
       if (existPermit) {
         next(
           new Error(
-            `${dbPermit.name} Permit is already exist in ${dbUser.name} User`,
-          ),
+            `${dbPermit.name} Permit is already exist in ${dbUser.name} User`
+          )
         );
       } else {
         await DB.findByIdAndUpdate(dbUser._id, {
@@ -164,7 +162,7 @@ const addPermit = async (req, res, next) => {
         Helper.fMsg(
           res,
           `${dbPermit.name} Permit added to ${user.name} User`,
-          user,
+          user
         );
       }
     } else {
@@ -179,7 +177,7 @@ const removePermit = async (req, res, next) => {
   let dbUser = await DB.findById(req.body.user_id).populate("permits");
   if (dbUser) {
     let existPermit = dbUser.permits.find((rid) =>
-      rid.equals(req.body.permit_id),
+      rid.equals(req.body.permit_id)
     );
     if (existPermit) {
       await DB.findByIdAndUpdate(dbUser._id, {
@@ -187,7 +185,7 @@ const removePermit = async (req, res, next) => {
       });
       Helper.fMsg(
         res,
-        `${existPermit.name} Permit removed from ${dbUser.name} User`,
+        `${existPermit.name} Permit removed from ${dbUser.name} User`
       );
     } else {
       next(new Error(`Permit doesn't exist in ${dbUser.name} User`));

@@ -22,7 +22,7 @@ let uploadMultipleFile = async (req, res, next) => {
   if (req.files) {
     if (req.files.files) {
       let filenames = [];
-      if (req.files.files.length > 1){ 
+      if (req.files.files.length > 1) {
         req.files.files.forEach(async (file) => {
           let filename = new Date().valueOf() + "_" + file.name;
           filenames.push(filename);
@@ -30,7 +30,7 @@ let uploadMultipleFile = async (req, res, next) => {
         });
         req.body["images"] = filenames;
         next();
-      } else if(req.files.files){
+      } else if (req.files.files) {
         let filename = new Date().valueOf() + "_" + req.files.files.name;
         filenames.push(filename);
         await req.files.files.mv(`./uploads/${filename}`);
